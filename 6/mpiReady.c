@@ -24,9 +24,11 @@ void send_recv_matrix(matrix_t* send_matrix, matrix_t* recv_matrix, int isRoot, 
         }
     } else {
         isReady = 1;
+        MPI_Request request;
         for (int idx = 0; idx < size[0]; ++idx) {
+            MPI_Irecv(recv_matrix->array[idx], size[2], MPI_INT, 0, idx, MPI_COMM_WORLD, &request);
             MPI_Send(&isReady, 1, MPI_INT, 0, idx, MPI_COMM_WORLD);
-            MPI_Recv(recv_matrix->array[idx], size[2], MPI_INT, 0, idx, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Wait(&request, MPI_STATUS_IGNORE);
         }
     }
 }
@@ -114,10 +116,12 @@ int main(int argc, char* argv[]) {
 
     if (isRoot) {
         isReady = 1;
+        MPI_Request request;
         for (int proc_id = 1; proc_id < ProcNum; ++proc_id) {
             for (int idx = 0; idx < size[0]; ++idx) {
+                MPI_Irecv(result.array[proc_id * size[0] + idx], size[1], MPI_INT, proc_id, idx, MPI_COMM_WORLD, &request);
                 MPI_Bcast(&isReady, 1, MPI_INT, 0, MPI_COMM_WORLD);
-                MPI_Recv(result.array[proc_id * size[0] + idx], size[1], MPI_INT, proc_id, idx, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Wait(&request, MPI_STATUS_IGNORE);
             }
         }
     } else {

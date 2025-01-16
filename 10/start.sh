@@ -15,7 +15,7 @@ do
     rm -f results$op.log
     touch results$op.log
 
-    for (( i=2; i <= 32; i+=2 ))
+    for (( i=2; i <= 8; i+=1 ))
     do
         mpirun -np $i ./$op >> results$op.log 2>&1  
     done

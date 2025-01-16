@@ -13,7 +13,6 @@ declare -A operations=(
 )
 
 # 43243200 - All
-# 4324320 - Broadcast
 # 4324320 - Reduce
 
 size=43243200

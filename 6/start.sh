@@ -4,15 +4,15 @@ module load openmpi
 module load gcc/9
 
 gcc -fopenmp -o genMat ../Matrix/GenMatrix.c
-./genMat 5040 5040 100 A
-./genMat 5040 5040 100 B
+./genMat 1000 1000 100 A
+./genMat 1000 1000 100 B
 
-gcc -o simple simple.c
-simple=$(./simple A B output 2>&1)
-echo "$simple" >> resultsSimple.log 2>&1
-echo "$simple" >> resultsReady.log 2>&1
-echo "$simple" >> resultsSync.log 2>&1
-echo "$simple" >> resultsBuff.log 2>&1
+# gcc -o simple simple.c
+# simple=$(./simple A B output 2>&1)
+# echo "$simple" >> resultsSimple.log 2>&1
+# echo "$simple" >> resultsReady.log 2>&1
+# echo "$simple" >> resultsSync.log 2>&1
+# echo "$simple" >> resultsMPI_Recv(result.array[proc_id * size[0] + idx], size[1], MPI_INT, proc_id, idx, MPI_COMM_WORLD, MPI_STATUS_IGNORE);Buff.log 2>&1
 
 mpicc -o mpiSimple mpiSimple.c
 mpicc -o mpiReady mpiReady.c
@@ -29,12 +29,14 @@ touch resultsReady.log
 touch resultsSync.log
 touch resultsBuff.log
 
-for (( i=2; i <= 16; i++ ))
+for (( i=2; i <= 2; i++ ))
 do
-    mpirun -np $i*$i ./mpiSimple A B output >> resultsSimple.log 2>&1
-    mpirun -np $i*$i ./mpiReady A B output >> resultsReady.log 2>&1
-    mpirun -np $i*$i ./mpiSync A B output >> resultsSync.log 2>&1
-    mpirun -np $i*$i ./mpiBuff A B output 400 >> resultsBuff.log 2>&1
+    let np=$i*$i
+    echo "$np"
+    # mpirun -np $np ./mpiSimple A B output >> resultsSimple.log 2>&1
+    mpirun -np $np ./mpiReady A B output >> resultsReady.log 2>&1
+    # mpirun -np $np ./mpiSync A B output >> resultsSync.log 2>&1
+    # mpirun -np $np ./mpiBuff A B output 3 >> resultsBuff.log 2>&1
 done
 
 rm -f simple mpiSimple mpiReady mpiBuff mpiSync output A B genMat

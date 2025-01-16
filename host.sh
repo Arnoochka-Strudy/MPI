@@ -1,7 +1,9 @@
 #!/bin/sh
 
 host=ant.apmath.spbu.ru
-name=NAME
+name=Arnoochka
+
+adguardvpn-cli disconnect
 
 if [ $# -gt 0 ]; then
     mpiDir=$name@$host:/home/$name
