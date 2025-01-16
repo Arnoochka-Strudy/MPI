@@ -1,26 +1,27 @@
 **Для запуска задачи на кластере:**
 
-bash```
+```bash
 chmod +x start.sh
-sbatch --nodes={N} start.sh {paramenres}```
+sbatch --nodes={N} start.sh {paramenres}
+```
 
 **Для работы с кластером удаленно:**
 
 1. Перенос задачи на кластер
 
-bash```
+```bash
 bash host.sh send {номер задачи} (если написать all, то будут перенесены все папки)
 ```
 
 2. Получение резульатов с кластера
 
-bash```
+```bash
 bash host.sh send {номер задачи} (если написать all, то будут получены все результаты)
 ```
 
 3. Подключение к кластеру
 
-bash```
+```bash
 bash host.sh
 ```
 
