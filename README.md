@@ -2,8 +2,7 @@
 
 bash```
 chmod +x start.sh
-sbatch --nodes={N} start.sh {paramenres}
-```
+sbatch --nodes={N} start.sh {paramenres}```
 
 **Для работы с кластером удаленно:**
 
