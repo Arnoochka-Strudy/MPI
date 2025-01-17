@@ -4,8 +4,8 @@ module load openmpi
 module load gcc/9
 
 gcc -fopenmp -o genMat ../Matrix/GenMatrix.c
-./genMat 1000 1000 100 A
-./genMat 1000 1000 100 B
+./genMat 10000 10000 100 A
+./genMat 10000 10000 100 B
 
 gcc -o simple simple.c
 mpicc -o mpiS mpiStriped.c
@@ -21,7 +21,7 @@ simple=$(./simple A B output 2>&1)
 echo "$simple" >> resultsS.log 2>&1
 echo "$simple" >> resultsF.log 2>&1
 
-for (( i=2; i <= 2; i++ ))
+for (( i=2; i <= 12; i++ ))
 do
     mpirun -np $(( $i*$i )) ./mpiS A B output >> resultsS.log 2>&1
     mpirun -np $(( $i*$i )) ./mpiF A B output >> resultsF.log 2>&1
